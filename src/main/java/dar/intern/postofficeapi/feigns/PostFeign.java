@@ -1,6 +1,5 @@
 package dar.intern.postofficeapi.feigns;
 
-import dar.intern.postofficeapi.model.Post;
 import dar.intern.postofficeapi.model.PostResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +13,8 @@ public interface PostFeign {
     String checkPost();
 
     @GetMapping("/post/{postId}")
-    Post getPostById(@PathVariable String postId);
+    PostResponse getPostById(@PathVariable String postId);
 
     @GetMapping("/post/all")
-    List<Post> getAllPosts();
+    List<PostResponse> getAllPosts();
 }

@@ -1,9 +1,7 @@
 package dar.intern.postofficeapi.feigns;
 
 import dar.intern.postofficeapi.model.ClientResponse;
-import dar.intern.postofficeapi.model.PostResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -20,4 +18,6 @@ public interface ClientFeign {
 
     @GetMapping("/client/{clientId}")
     ClientResponse getClientById(@PathVariable String clientId);
+
+
 }

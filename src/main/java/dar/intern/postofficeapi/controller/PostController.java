@@ -1,9 +1,8 @@
 package dar.intern.postofficeapi.controller;
 
-
 import dar.intern.postofficeapi.feigns.ClientFeign;
 import dar.intern.postofficeapi.feigns.PostFeign;
-import dar.intern.postofficeapi.model.Post;
+import dar.intern.postofficeapi.model.DetailsResponse;
 import dar.intern.postofficeapi.model.PostResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,36 +28,37 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public List<Post> getAllPosts() {
+    public List<PostResponse> getAllPosts() {
         return postFeign.getAllPosts();
     }
 
     @GetMapping("/{postId}")
-    public Post getPostById(@PathVariable String postId) {
+    public PostResponse getPostById(@PathVariable String postId) {
         return postFeign.getPostById(postId);
     }
 
     @GetMapping("/all/details")
-    public List<PostResponse> getAllPostDetails(){
-        List<Post> posts = getAllPosts();
-        List<PostResponse> postResponses = new ArrayList<>();
-        for (Post post : posts){
-            PostResponse postResponse = getPostDetailsById(post.getPostId());
-            postResponses.add(postResponse);
+    public List<DetailsResponse> getAllPostDetails(){
+        List<PostResponse> posts = getAllPosts();
+        List<DetailsResponse> detailsRespons = new ArrayList<>();
+        for (PostResponse post : posts){
+            DetailsResponse detailsResponse = getPostDetailsById(post.getPostId());
+            detailsRespons.add(detailsResponse);
         }
-        return postResponses;
+        return detailsRespons;
     }
 
     @GetMapping("/{postId}/details")
-    public PostResponse getPostDetailsById(@PathVariable String postId) {
-        Post post = postFeign.getPostById(postId);
-        PostResponse postResponse = new PostResponse();
-        postResponse.setPostId(post.getPostId());
-        postResponse.setClient(clientFeign.getClientById(post.getClientId()));
-        postResponse.setReceiver(clientFeign.getClientById(post.getReceiverId()));
-        postResponse.setPostItem(post.getPostItem());
-        postResponse.setStatus(post.getStatus());
-        return postResponse;
+    public DetailsResponse getPostDetailsById(@PathVariable String postId) {
+
+        PostResponse post = postFeign.getPostById(postId);
+        DetailsResponse detailsResponse = new DetailsResponse();
+        detailsResponse.setPostId(post.getPostId());
+        detailsResponse.setClient(clientFeign.getClientById(post.getClientId()));
+        detailsResponse.setReceiver(clientFeign.getClientById(post.getReceiverId()));
+        detailsResponse.setPostItem(post.getPostItem());
+        detailsResponse.setStatus(post.getStatus());
+        return detailsResponse;
     }
 
 
